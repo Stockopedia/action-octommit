@@ -1,4 +1,4 @@
-name: 'Octommit'
+name: 'octommit'
 description: 'Gitops utility for updating yaml files in a github repo'
 author: 'Stockopedia'
 inputs:
