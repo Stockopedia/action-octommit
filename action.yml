@@ -1,8 +1,8 @@
 name: 'Octommit'
-description: 'Provide a description here'
+description: 'Gitops utility for updating yaml files in a github repo'
 author: 'Stockopedia'
 inputs:
-  github-token: # change this
+  github-token:
     required: true
     description: "github token"
   script:
