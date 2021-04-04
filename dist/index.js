@@ -3817,11 +3817,11 @@ class Command {
         return this;
     }
     remove(path, value) {
-        this.options.set.push(`[${path}]=${value}`);
+        this.options.remove.push(`[${path}]=${value}`);
         return this;
     }
     removeFromArray(path, value) {
-        this.options.set.push(`[${path}[]]=${value}`);
+        this.options.remove.push(`[${path}[]]=${value}`);
         return this;
     }
     commit(message) {
