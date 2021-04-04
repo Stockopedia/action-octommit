@@ -1,19 +1,26 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {callAsyncFunction} from './async-function'
+import {Octommit} from '@stockopedia/octommit'
+import * as io from '@actions/io'
 
-async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+process.on('unhandledRejection', handleError)
+main().catch(handleError)
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+async function main(): Promise<void> {
+  const token = core.getInput('github-token', {required: true})
+  const script = core.getInput('script', {required: true})
 
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    core.setFailed(error.message)
-  }
+  const octommit = new Octommit(token)
+
+  const result = await callAsyncFunction(
+    {require: require, core, io, octommit},
+    script
+  )
+
+  core.setOutput('result', result)
 }
 
-run()
+function handleError(err: any): void {
+  console.error(err)
+  core.setFailed(`Unhandled error: ${err}`)
+}

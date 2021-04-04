@@ -1,13 +1,13 @@
 name: 'build-test'
-on: # rebuild any PRs and main branch changes
+on: 
   pull_request:
   push:
     branches:
       - main
-      - 'releases/*'
 
 jobs:
   build: # make sure build/ci work properly
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,10 +15,24 @@ jobs:
           npm install
       - run: |
           npm run all
-  test: # make sure the action works on a clean machine without building
+  test:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: get_changed
         with:
-          milliseconds: 1000
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            octommit.update()
+              .org("Stockopedia")
+              .repository("action-octommit")
+              .sourceBranch("main")
+              .outputBranch("main")
+              .sourcePath("test-file.yaml")
+              .outputPath("test-file.yaml")
+              .set("testRunDate", new Date().toString())
+              .commit("[skip ci] test commit")
+              .run();
+
