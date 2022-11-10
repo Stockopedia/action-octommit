@@ -1,4 +1,4 @@
-name: 'test'
+name: Release
 on: 
   push:
     branches:
@@ -9,9 +9,9 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./
-        id: get_changed
+        name: Test
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -25,4 +25,7 @@ jobs:
               .set("testRunDate", new Date().toString())
               .commit("[skip ci] test commit")
               .run();
+      - name: Tag release
+        run: npx semantic-release --branches main -p @semantic-release/commit-analyzer -p @semantic-release/release-notes-generator -p @semantic-release/github
+
 
