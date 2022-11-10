@@ -4,10 +4,10 @@ author: 'Stockopedia'
 inputs:
   github-token:
     required: true
-    description: "github token"
+    description: 'github token'
   script:
     required: true
-    description: "octommit script to run"
+    description: 'octommit script to run'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'

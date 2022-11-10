@@ -1,28 +1,59 @@
-import {wait} from '../src/wait'
-import * as process from 'process'
-import * as cp from 'child_process'
-import * as path from 'path'
+import * as core from '@actions/core'
+import {Octommit} from '@stockopedia/octommit'
+import {main} from '../src/main'
+import Mock = jest.Mock
+import exp = require('constants')
 
-test('throws invalid number', async () => {
-  const input = parseInt('foo', 10)
-  await expect(wait(input)).rejects.toThrow('milliseconds not a number')
-})
-
-test('wait 500 ms', async () => {
-  const start = new Date()
-  await wait(500)
-  const end = new Date()
-  var delta = Math.abs(end.getTime() - start.getTime())
-  expect(delta).toBeGreaterThan(450)
-})
-
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = '500'
-  const np = process.execPath
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
-  const options: cp.ExecFileSyncOptions = {
-    env: process.env
+jest.mock('@actions/core', () => {
+  return {
+    getInput: jest.fn((key: string) => {
+      switch (key) {
+        case 'github-token':
+          return 'token123'
+        case 'script':
+          return `return octommit.run("something")`
+        default:
+          throw new Error(`Cannot getInput for "${key}"`)
+      }
+    }),
+    setOutput: jest.fn(),
+    setFailed: jest.fn()
   }
-  console.log(cp.execFileSync(np, [ip], options).toString())
+})
+
+jest.mock('@stockopedia/octommit', () => {
+  return {
+    Octommit: jest.fn(() => ({run: jest.fn(() => 'Winner!')}))
+  }
+})
+
+describe('main', () => {
+  it('should invoke the command in the input with the token', async () => {
+    await main()
+
+    expect(core.getInput).toHaveBeenCalledWith('github-token', {required: true})
+    expect(core.getInput).toHaveBeenCalledWith('script', {required: true})
+
+    expect(Octommit).toHaveBeenCalledWith('token123')
+
+    expect(core.setOutput).toHaveBeenCalledWith('result', 'Winner!')
+
+    expect(core.setFailed).not.toHaveBeenCalled()
+  })
+
+  it('should set a failure when there is an error', async () => {
+    ;(Octommit as unknown as Mock).mockImplementation(() => {
+      throw new Error('Failed')
+    })
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    await main()
+
+    expect(core.setOutput).not.toHaveBeenCalled()
+
+    expect(core.setFailed).toHaveBeenCalledWith(
+      `Unhandled error: Error: Failed`
+    )
+    expect(console.error).toHaveBeenCalledWith(new Error('Failed'))
+  })
 })

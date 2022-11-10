@@ -4,7 +4,7 @@ import {Octommit} from '@stockopedia/octommit'
 
 const AsyncFunction = Object.getPrototypeOf(async () => null).constructor
 
-type AsyncFunctionArguments = {
+interface AsyncFunctionArguments {
   core: typeof core
   io: typeof io
   require: NodeRequire
