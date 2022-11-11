@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - run: |
           npm install
       - run: |
@@ -31,6 +29,10 @@ jobs:
               .set("testRunDate", new Date().toString())
               .commit("[skip ci] test commit")
               .run();
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          clean: true
       - name: Tag release
         run: npx semantic-release --branches main -p @semantic-release/commit-analyzer -p @semantic-release/release-notes-generator -p @semantic-release/github
 
