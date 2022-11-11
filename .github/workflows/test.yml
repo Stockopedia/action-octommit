@@ -17,7 +17,7 @@ jobs:
       - uses: ./
         name: Test
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             octommit.update()
               .org("Stockopedia")
