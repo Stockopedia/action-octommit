@@ -30,6 +30,8 @@ jobs:
               .commit("[skip ci] test commit")
               .run();
       - name: Tag release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: npx semantic-release --branches main -p @semantic-release/commit-analyzer -p @semantic-release/release-notes-generator -p @semantic-release/github
 
 
