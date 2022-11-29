@@ -22,7 +22,10 @@ jest.mock('@actions/core', () => {
 
 jest.mock('@stockopedia/octommit', () => {
   return {
-    Octommit: jest.fn(() => ({run: jest.fn(() => 'Winner!')}))
+    Octommit: jest.fn(() => ({run: jest.fn(() => {
+      console.log("I've been called")
+        return Promise.resolve("Winner!");
+      })}))
   }
 })
 
@@ -34,6 +37,7 @@ describe('main', () => {
     expect(core.getInput).toHaveBeenCalledWith('script', {required: true})
 
     expect(Octommit).toHaveBeenCalledWith('token123')
+
 
     expect(core.setOutput).toHaveBeenCalledWith('result', 'Winner!')
 
