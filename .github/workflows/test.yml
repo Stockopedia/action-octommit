@@ -19,7 +19,7 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            octommit.update()
+            return octommit.update()
               .org("Stockopedia")
               .repository("action-octommit")
               .sourceBranch("test")

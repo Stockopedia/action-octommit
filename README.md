@@ -15,7 +15,7 @@ Utility to update yaml files in git. Accompanying repo - <https://github.com/Sto
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     script: |
-      octommit.update()
+      return octommit.update()
         .org("Stockopedia")
         .repository("action-octommit")
         .sourceBranch("main")
