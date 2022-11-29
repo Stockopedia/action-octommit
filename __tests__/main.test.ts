@@ -2,7 +2,6 @@ import * as core from '@actions/core'
 import {Octommit} from '@stockopedia/octommit'
 import {main} from '../src/main'
 import Mock = jest.Mock
-import exp = require('constants')
 
 jest.mock('@actions/core', () => {
   return {
@@ -47,13 +46,8 @@ describe('main', () => {
     })
     jest.spyOn(console, 'error').mockImplementation(() => {})
 
-    await main()
+    await expect(main()).rejects.toEqual(new Error('Failed'))
 
     expect(core.setOutput).not.toHaveBeenCalled()
-
-    expect(core.setFailed).toHaveBeenCalledWith(
-      `Unhandled error: Error: Failed`
-    )
-    expect(console.error).toHaveBeenCalledWith(new Error('Failed'))
   })
 })
