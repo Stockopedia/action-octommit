@@ -1,5 +1,5 @@
-import { RunnerInputs } from "../src/models";
-import { runAction } from "../src/runner";
+import { RunnerInputs } from "../models";
+import { runAction } from "../runner";
 import {
   commandMock,
   octommitMock,

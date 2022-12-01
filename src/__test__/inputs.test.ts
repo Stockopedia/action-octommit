@@ -1,5 +1,5 @@
-import { getInputs, InputError } from "../src/inputs";
-import { MultiPathValueError } from "../src/multi-path-value";
+import { getInputs, InputError } from "../inputs";
+import { MultiPathValueError } from "../multi-path-value";
 import { mockActionsCore } from "./mocks/actions-core";
 
 describe("Inputs", () => {

@@ -1,7 +1,7 @@
 import {
   MultiPathValueError,
   parseMultiPathValue,
-} from "../src/multi-path-value";
+} from "../multi-path-value";
 
 describe("Multi path value utilities", () => {
   describe(parseMultiPathValue.name, () => {

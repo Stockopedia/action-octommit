@@ -5,6 +5,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
+    "outDir": "./lib",
+    "rootDir": "./src"
   },
-  "exclude": ["__test__"]
+  "exclude": ["lib", "node_modules"]
 }

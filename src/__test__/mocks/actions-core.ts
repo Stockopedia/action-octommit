@@ -1,4 +1,4 @@
-import { ActionsCore } from "../../src/types";
+import { ActionsCore } from "../../types";
 import { mock } from "../helpers";
 
 export interface RawInputs {

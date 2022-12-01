@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import { Octommit } from "@stockopedia/octommit";
-import { main } from "../src/main";
+import { main } from "../main";
 import type { RawInputs } from "./mocks/actions-core";
 import Mock = jest.Mock;
 
