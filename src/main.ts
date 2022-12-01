@@ -1,24 +1,22 @@
-import * as core from '@actions/core'
-import * as io from '@actions/io'
-import {Octommit} from '@stockopedia/octommit'
-import {callAsyncFunction} from './async-function'
+import * as core from "@actions/core";
+import { Octommit } from "@stockopedia/octommit";
+import { getInputs } from "./inputs";
+import { runAction } from "./runner";
 
-process.on('unhandledRejection', handleError)
-main().catch(handleError)
+process.on("unhandledRejection", handleError);
+main().catch(handleError);
 
 export async function main(): Promise<void> {
-  const token = core.getInput('github-token', {required: true})
-  const script = core.getInput('script', {required: true})
-
-  const octommit = new Octommit(token)
-
-  const result = await callAsyncFunction({require, core, io, octommit}, script)
-
-  core.setOutput('result', result)
+  const { githubToken, ...inputs } = getInputs(core);
+  core.debug(`Got inputs ${JSON.stringify(inputs)}`)
+  const octommit = new Octommit(githubToken);
+  const result = await runAction(octommit, inputs);
+  core.debug(`Got result: ${result}`)
+  core.setOutput("result", result);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function handleError(err: any): void {
-  console.error(err)
-  core.setFailed(`Unhandled error: ${err}`)
+  console.error(err);
+  core.setFailed(`Unhandled error: ${err}`);
 }
