@@ -1,4 +1,4 @@
-# Octommit V2
+# Octommit V3
 
 Utility to update yaml files in git. Accompanying repo - <https://github.com/Stockopedia/octommit>
 
@@ -11,18 +11,37 @@ Utility to update yaml files in git. Accompanying repo - <https://github.com/Sto
 # Usage
 
 ```yaml
-- uses: Stockopedia/octommit@v2
+- uses: Stockopedia/octommit@v3
   with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    script: |
-      return octommit.update()
-        .org("Stockopedia")
-        .repository("action-octommit")
-        .sourceBranch("main")
-        .outputBranch("main")
-        .sourcePath("test-file.yaml")
-        .outputPath("test-file.yaml")
-        .set("testRunDate", new Date().toString())
-        .commit("[skip ci] test commit")
-        .run();
+    github-token: ${{ github.token }}
+    organization: Stockopedia
+    repository: action-octommit
+    source-branch: main
+    output-branch: main
+    source-path: test-file.yaml
+    output-path: test-file.yaml
+    set: "tag=v${{ github.sha }}"
+    commit-message: "[skip ci] update for job: ${{ github.run_id }}"
+```
+
+See `action.yaml` for details on defaults and options.
+
+## Format of updates
+
+The `set`, `set-array-item` and `remove-from-array` inputs all use the same format to specify path-value pairs. Each pair is specific as:
+
+```shell
+parent:child=value
+```
+
+Where `parent:child` is the YAML path for Octommit to act on and `value` is the new value to be used in the operation.
+
+You can add whitespace around the `=` and it will be stripped from the path and value.
+
+### Multiple path-values
+
+If you wish to specify multiple path-values for a given operation, separate these with the `;` character, e.g.
+
+```shell
+parent1:child1=value1;parent2:child2=value2
 ```

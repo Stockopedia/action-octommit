@@ -1,57 +1,83 @@
-import * as core from '@actions/core'
-import {Octommit} from '@stockopedia/octommit'
-import {main} from '../src/main'
-import Mock = jest.Mock
+import * as core from "@actions/core";
+import { Octommit } from "@stockopedia/octommit";
+import { main } from "../src/main";
+import type { RawInputs } from "./mocks/actions-core";
+import Mock = jest.Mock;
 
-jest.mock('@actions/core', () => {
+jest.mock("@actions/core", () => {
+  const rawInputs: RawInputs = {
+    "github-token": "abc123",
+    organization: "Stockopedia",
+    repository: "action-octommit",
+    "source-branch": "source",
+    "output-branch": "target",
+    "source-path": "source.yaml",
+    "output-path": "target.yaml",
+    set: "parent1:child1=value1",
+    "set-array-item": "parent2:child2=value2",
+    "remove-from-array": "parent3:child3=value3",
+    "commit-message": "ci: update",
+  };
   return {
-    getInput: jest.fn((key: string) => {
-      switch (key) {
-        case 'github-token':
-          return 'token123'
-        case 'script':
-          return `return octommit.run("something")`
-        default:
-          throw new Error(`Cannot getInput for "${key}"`)
-      }
+    getInput: jest.fn((key: keyof RawInputs) => {
+      return rawInputs[key];
     }),
     setOutput: jest.fn(),
-    setFailed: jest.fn()
-  }
-})
+    setFailed: jest.fn(),
+  };
+});
 
-jest.mock('@stockopedia/octommit', () => {
+jest.mock("@stockopedia/octommit", () => {
   return {
-    Octommit: jest.fn(() => ({run: jest.fn(() => {
-      console.log("I've been called")
-        return Promise.resolve("Winner!");
-      })}))
-  }
-})
+    Octommit: jest.fn(() => ({
+      update: jest.fn(() => ({
+        org: jest.fn(() => ({
+          repository: jest.fn(() => ({
+            sourceBranch: jest.fn(() => ({
+              outputBranch: jest.fn(() => ({
+                sourcePath: jest.fn(() => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  const commandMock: any = {
+                    set: jest.fn(() => commandMock),
+                    setArrayItem: jest.fn(() => commandMock),
+                    removeFromArray: jest.fn(() => commandMock),
+                    commit: jest.fn(() => ({
+                      run: jest.fn(() => Promise.resolve("output")),
+                    })),
+                  };
+                  return {
+                    outputPath: jest.fn(() => commandMock),
+                  };
+                }),
+              })),
+            })),
+          })),
+        })),
+      })),
+    })),
+  };
+});
 
-describe('main', () => {
-  it('should invoke the command in the input with the token', async () => {
-    await main()
+describe("main", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    expect(core.getInput).toHaveBeenCalledWith('github-token', {required: true})
-    expect(core.getInput).toHaveBeenCalledWith('script', {required: true})
+  it("should invoke the command in the input with the token", async () => {
+    await main();
 
-    expect(Octommit).toHaveBeenCalledWith('token123')
+    expect(Octommit).toHaveBeenCalledWith("abc123");
 
+    expect(core.setOutput).toHaveBeenCalledWith("result", "output");
+  });
 
-    expect(core.setOutput).toHaveBeenCalledWith('result', 'Winner!')
+  it("should set a failure when there is an error", async () => {
+    (Octommit as unknown as Mock).mockImplementation(() => {
+      throw new Error("Failed");
+    });
 
-    expect(core.setFailed).not.toHaveBeenCalled()
-  })
+    await expect(main()).rejects.toEqual(new Error("Failed"));
 
-  it('should set a failure when there is an error', async () => {
-    ;(Octommit as unknown as Mock).mockImplementation(() => {
-      throw new Error('Failed')
-    })
-    jest.spyOn(console, 'error').mockImplementation(() => {})
-
-    await expect(main()).rejects.toEqual(new Error('Failed'))
-
-    expect(core.setOutput).not.toHaveBeenCalled()
-  })
-})
+    expect(core.setOutput).not.toHaveBeenCalled();
+  });
+});

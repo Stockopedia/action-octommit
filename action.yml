@@ -1,13 +1,48 @@
-name: 'octommit'
-description: 'Gitops utility for updating yaml files in a github repo'
-author: 'Stockopedia'
+name: "octommit"
+description: "Gitops utility for updating yaml files in a github repo"
+author: "Stockopedia"
+branding:
+  icon: "git-commit"
+  color: "blue"
 inputs:
   github-token:
     required: true
-    description: 'A GitHub token that has write access to the target repository'
-  script:
+    description: "A GitHub token that has write access to the target repository"
+  organization:
     required: true
-    description: 'octommit script to run'
+    description: "The GitHub organization that contains the repository"
+  repository:
+    required: true
+    description: "The repository in  organization to update"
+  source-branch:
+    required: false
+    description: "The source branch where the YAML file lives"
+    default: main
+  output-branch:
+    required: false
+    description: "The branch where the updated YAML file is output"
+    default: main
+  source-path:
+    required: true
+    description: "The source path where the YAML file lives"
+  output-path:
+    required: true
+    description: "The path where the updated YAML file is output"
+  set:
+    required: false
+    default: ""
+    description: "A series of path=value updates for the YAML to set the value of `path` to `value`. . For multiple updates separate with `;`"
+  set-array-item:
+    required: false
+    default: ""
+    description: "A series of path=value updates for the YAML to append `value` to the array at `path`. For multiple updates separate with `;`"
+  remove-from-array:
+    required: false
+    default: ""
+    description: "A series of path=value updates for the YAML to remove `value` to the array at `path`. For multiple updates separate with `;`"
+  commit-message:
+    required: true
+    description: "The message to use in the Octommit commit"
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"

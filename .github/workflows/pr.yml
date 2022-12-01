@@ -1,0 +1,37 @@
+name: 'PR build'
+on: 
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout
+      - run: npm install
+        name: Install
+      - run: npm run all
+        name: Compile Typescript and package
+      - uses: ./
+        name: Test
+        with:
+          github-token: ${{ github.token }}
+          organization: Stockopedia
+          repository: action-octommit
+          source-branch: test
+          output-branch: test
+          source-path: test-file.yaml
+          output-path: test-file.yaml
+          set: "job:id=${{ github.run_id }}"
+          commit-message: "ci: update for job: ${{ github.run_id }}"
+      - name: Verify commit
+        run: |
+          git fetch
+          if [ "`git show-branch --no-name test`" = "ci: update for job: ${{ github.run_id }}"]; then
+            echo "Got matching commit message!"
+            exit 0
+          else
+            echo "Commit message did not match!"
+            exit 1
+          fi
+
