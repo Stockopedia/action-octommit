@@ -5,14 +5,19 @@ on:
       - main
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        name: Checkout
       - run: npm install
+        name: Install
       - run: npm run all
+        name: Compile Typescript and package
+      - run: npm run test
+        name: Unit tests
       - uses: ./
-        name: Test
+        name: End-to-end test
         with:
           github-token: ${{ github.token }}
           organization: Stockopedia
@@ -24,15 +29,11 @@ jobs:
           set: "job:id=${{ github.run_id }}"
           commit-message: "ci: update for job: ${{ github.run_id }}"
       - name: Verify commit
+        env:
+          EXPECTED_COMMIT_MESSAGE: "ci: update for job: ${{ github.run_id }}"
         run: |
           git fetch
-          if [ "${git show-branch --no-name test}" = "ci: update for job: ${{ github.run_id }}" ]; then
-            echo "Got matching commit message!"
-            exit 0
-          else
-            echo "Commit message did not match!"
-            exit 1
-          fi
+          python validate_commit.py
       - name: Tag release
         env:
           GITHUB_TOKEN: ${{ github.token }}

@@ -3,9 +3,9 @@
   "private": true,
   "version": "3.0.0",
   "description": "Octommit github action",
-  "main": "dist/index.js",
+  "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib/* && tsc -p ./tsconfig.build.json",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts",
