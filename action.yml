@@ -13,7 +13,7 @@ inputs:
     description: "The GitHub organization that contains the repository"
   repository:
     required: true
-    description: "The repository in  organization to update"
+    description: "The repository in the organization to update"
   source-branch:
     required: false
     description: "The source branch where the YAML file lives"
