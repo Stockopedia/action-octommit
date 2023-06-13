@@ -1,7 +1,4 @@
-import {
-  MultiPathValueError,
-  parseMultiPathValue,
-} from "../multi-path-value";
+import { MultiPathValueError, parseMultiPathValue } from "../multi-path-value";
 
 describe("Multi path value utilities", () => {
   describe(parseMultiPathValue.name, () => {
@@ -47,6 +44,18 @@ describe("Multi path value utilities", () => {
       expect(
         parseMultiPathValue(
           "parent1:child1=new value 1 ; parent2:child2=new value 2",
+        ),
+      ).toEqual([
+        { path: "parent1:child1", value: "new value 1" },
+        { path: "parent2:child2", value: "new value 2" },
+      ]);
+    });
+
+    it("should support path-values on subsequent lines", () => {
+      expect(
+        parseMultiPathValue(
+          `parent1:child1=new value 1; 
+          parent2:child2=new value 2;`,
         ),
       ).toEqual([
         { path: "parent1:child1", value: "new value 1" },
