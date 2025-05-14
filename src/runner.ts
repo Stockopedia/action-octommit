@@ -18,6 +18,10 @@ export async function runAction(
     command = command.set(path, value);
   });
 
+  inputs.setBoolean.forEach(({ path, value }) => {
+    command = command.set(path, value);
+  });
+
   inputs.setArrayItem.forEach(({ path, value }) => {
     command = command.setArrayItem(path, value);
   });

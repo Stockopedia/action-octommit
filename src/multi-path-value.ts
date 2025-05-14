@@ -1,6 +1,9 @@
 import { MultiPathValue } from "./models";
 
-export function parseMultiPathValue(input: string): MultiPathValue {
+export function parseMultiPathValue(
+  input: string,
+  coerce?: any,
+): MultiPathValue {
   const pathValuesRaw = (input || "").split(/\s*;\s*/g);
   return pathValuesRaw
     .filter((v) => !!v.trim())
@@ -16,7 +19,10 @@ export function parseMultiPathValue(input: string): MultiPathValue {
         );
       }
       const [path, value] = pathValueRaw.split(/\s*=\s*/g);
-      return { path: path.trim(), value: value.trim() };
+      return {
+        path: path.trim(),
+        value: coerce ? coerce(value.trim()) : value.trim(),
+      };
     });
 }
 

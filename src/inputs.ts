@@ -30,6 +30,8 @@ export function getInputs(core: ActionsCore): Inputs {
   });
 
   const set = extractMultiPathValueOption(core, "set");
+
+  const setBoolean = extractMultiPathValueOption(core, "set-boolean", Boolean);
   const setArrayItem = extractMultiPathValueOption(core, "set-array-item");
   const removeFromArray = extractMultiPathValueOption(
     core,
@@ -48,6 +50,7 @@ export function getInputs(core: ActionsCore): Inputs {
     sourcePath,
     outputPath,
     set,
+    setBoolean,
     setArrayItem,
     removeFromArray,
     commitMessage,
@@ -57,10 +60,12 @@ export function getInputs(core: ActionsCore): Inputs {
 function extractMultiPathValueOption(
   core: ActionsCore,
   name: string,
+  coerceValue?: any,
 ): MultiPathValue {
   try {
     return parseMultiPathValue(
       core.getInput(name, { trimWhitespace: true }) || "",
+      coerceValue,
     );
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

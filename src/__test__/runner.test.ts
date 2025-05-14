@@ -219,6 +219,7 @@ describe("Runner", () => {
         outputPath: "output.yaml",
         set: [],
         setArrayItem: [],
+        setBoolean: [],
         removeFromArray: [],
         commitMessage: "ci: update",
         ...overrides,
