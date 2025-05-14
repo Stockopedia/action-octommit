@@ -19,7 +19,8 @@ export async function runAction(
   });
 
   inputs.setBoolean.forEach(({ path, value }) => {
-    command = command.set(path, value);
+    // octommit assumes everything is a string but will function properly with any type
+    command = command.set(path, value as unknown as string);
   });
 
   inputs.setArrayItem.forEach(({ path, value }) => {

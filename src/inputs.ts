@@ -57,11 +57,11 @@ export function getInputs(core: ActionsCore): Inputs {
   };
 }
 
-function extractMultiPathValueOption(
+function extractMultiPathValueOption<T = string>(
   core: ActionsCore,
   name: string,
-  coerceValue?: any,
-): MultiPathValue {
+  coerceValue?: (value: string) => T,
+): MultiPathValue<T> {
   try {
     return parseMultiPathValue(
       core.getInput(name, { trimWhitespace: true }) || "",
