@@ -1,5 +1,5 @@
 import { Inputs, MultiPathValue } from "./models";
-import { parseMultiPathValue } from "./multi-path-value";
+import { parseMultiPathValue, stringToBoolean } from "./multi-path-value";
 import type { ActionsCore } from "./types";
 
 export function getInputs(core: ActionsCore): Inputs {
@@ -30,6 +30,12 @@ export function getInputs(core: ActionsCore): Inputs {
   });
 
   const set = extractMultiPathValueOption(core, "set");
+
+  const setBoolean = extractMultiPathValueOption(
+    core,
+    "set-boolean",
+    stringToBoolean,
+  );
   const setArrayItem = extractMultiPathValueOption(core, "set-array-item");
   const removeFromArray = extractMultiPathValueOption(
     core,
@@ -48,19 +54,22 @@ export function getInputs(core: ActionsCore): Inputs {
     sourcePath,
     outputPath,
     set,
+    setBoolean,
     setArrayItem,
     removeFromArray,
     commitMessage,
   };
 }
 
-function extractMultiPathValueOption(
+function extractMultiPathValueOption<T = string>(
   core: ActionsCore,
   name: string,
-): MultiPathValue {
+  coerceValue?: (value: string) => T,
+): MultiPathValue<T> {
   try {
     return parseMultiPathValue(
       core.getInput(name, { trimWhitespace: true }) || "",
+      coerceValue,
     );
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

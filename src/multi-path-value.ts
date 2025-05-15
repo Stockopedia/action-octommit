@@ -1,6 +1,9 @@
 import { MultiPathValue } from "./models";
 
-export function parseMultiPathValue(input: string): MultiPathValue {
+export function parseMultiPathValue<T = string>(
+  input: string,
+  coerceValue?: (value: string) => T,
+): MultiPathValue<T> {
   const pathValuesRaw = (input || "").split(/\s*;\s*/g);
   return pathValuesRaw
     .filter((v) => !!v.trim())
@@ -16,8 +19,24 @@ export function parseMultiPathValue(input: string): MultiPathValue {
         );
       }
       const [path, value] = pathValueRaw.split(/\s*=\s*/g);
-      return { path: path.trim(), value: value.trim() };
+      return {
+        path: path.trim(),
+        value: (coerceValue
+          ? coerceValue(value.trim())
+          : value.trim()) as unknown as T,
+      };
     });
 }
+
+export const stringToBoolean = (value: string): boolean => {
+  switch (value.toLowerCase()) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    default:
+      return !!value;
+  }
+};
 
 export class MultiPathValueError extends Error {}

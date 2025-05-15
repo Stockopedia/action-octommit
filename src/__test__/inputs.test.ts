@@ -24,6 +24,12 @@ describe("Inputs", () => {
             value: "value1",
           },
         ],
+        setBoolean: [
+          {
+            path: "parent4:child4",
+            value: true,
+          },
+        ],
         setArrayItem: [
           {
             path: "parent2:child2",

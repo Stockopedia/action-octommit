@@ -1,4 +1,8 @@
-import { MultiPathValueError, parseMultiPathValue } from "../multi-path-value";
+import {
+  MultiPathValueError,
+  parseMultiPathValue,
+  stringToBoolean,
+} from "../multi-path-value";
 
 describe("Multi path value utilities", () => {
   describe(parseMultiPathValue.name, () => {
@@ -26,6 +30,24 @@ describe("Multi path value utilities", () => {
         { path: "parent1:child1", value: "new value 1" },
         { path: "parent2:child2", value: "new value 2" },
         { path: "parent3:child3", value: "new value 3" },
+      ]);
+    });
+
+    it("should support corercing single values", () => {
+      expect(
+        parseMultiPathValue("parent1:child1=true", stringToBoolean),
+      ).toEqual([{ path: "parent1:child1", value: true }]);
+    });
+
+    it("should support corercing multiple values", () => {
+      expect(
+        parseMultiPathValue(
+          "parent1:child1=false;parent2:child2=new value 2;",
+          stringToBoolean,
+        ),
+      ).toEqual([
+        { path: "parent1:child1", value: false },
+        { path: "parent2:child2", value: true },
       ]);
     });
 

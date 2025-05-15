@@ -1,9 +1,9 @@
-interface PathValue {
+interface PathValue<T> {
   path: string;
-  value: string;
+  value: T;
 }
 
-export type MultiPathValue = readonly PathValue[];
+export type MultiPathValue<T> = readonly PathValue<T>[];
 
 export interface RunnerInputs {
   organization: string;
@@ -12,9 +12,10 @@ export interface RunnerInputs {
   outputBranch: string;
   sourcePath: string;
   outputPath: string;
-  set: MultiPathValue;
-  setArrayItem: MultiPathValue;
-  removeFromArray: MultiPathValue;
+  set: MultiPathValue<string>;
+  setBoolean: MultiPathValue<boolean>;
+  setArrayItem: MultiPathValue<string>;
+  removeFromArray: MultiPathValue<string>;
   commitMessage: string;
 }
 

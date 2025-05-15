@@ -10,6 +10,7 @@ export interface RawInputs {
   "source-path": string;
   "output-path": string;
   set: string;
+  "set-boolean": string;
   "set-array-item": string;
   "remove-from-array": string;
   "commit-message": string;
@@ -29,6 +30,7 @@ export function mockActionsCore(
     set: "parent1:child1=value1",
     "set-array-item": "parent2:child2=value2",
     "remove-from-array": "parent3:child3=value3",
+    "set-boolean": "parent4:child4=true",
     "commit-message": "ci: update",
     ...overrides,
   };

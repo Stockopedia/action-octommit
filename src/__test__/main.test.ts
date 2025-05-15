@@ -16,6 +16,7 @@ jest.mock("@actions/core", () => {
     set: "parent1:child1=value1",
     "set-array-item": "parent2:child2=value2",
     "remove-from-array": "parent3:child3=value3",
+    "set-boolean": "parent4:child4=true",
     "commit-message": "ci: update",
   };
   return {
