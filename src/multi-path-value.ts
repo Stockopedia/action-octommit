@@ -28,4 +28,15 @@ export function parseMultiPathValue<T = string>(
     });
 }
 
+export const stringToBoolean = (value: string): boolean => {
+  switch (value.toLowerCase()) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    default:
+      return !!value;
+  }
+};
+
 export class MultiPathValueError extends Error {}
