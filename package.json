@@ -28,7 +28,7 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/io": "^1.1.3",
-    "@stockopedia/octommit": "^2.0.0"
+    "@stockopedia/octommit": "^2.1.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.2",
