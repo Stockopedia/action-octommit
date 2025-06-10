@@ -1,3 +1,4 @@
 job:
-  id: 15557643355
-  is_production_release: true
+  id: 15562897718
+  is_production_release: false
+  a_number: 42
