@@ -23,11 +23,9 @@ describe("Inputs", () => {
             path: "parent1:child1",
             value: "value1",
           },
-        ],
-        setBoolean: [
           {
             path: "parent4:child4",
-            value: true,
+            value: "true", // This is a string at this stage but would be converted to a bool by octommit before writing to yaml
           },
         ],
         setArrayItem: [

@@ -1,5 +1,5 @@
-name: 'PR build'
-on: 
+name: "PR build"
+on:
   pull_request:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
           output-branch: test
           source-path: test-file.yaml
           output-path: test-file.yaml
-          set: "job:id=${{ github.run_id }}"
+          set: "job:id=${{ github.run_id }};job:is_production_release=false"
           commit-message: "ci: update for job: ${{ github.run_id }}"
       - name: Verify commit
         env:

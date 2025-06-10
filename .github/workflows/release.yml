@@ -1,5 +1,5 @@
 name: Release
-on: 
+on:
   push:
     branches:
       - main
@@ -26,7 +26,7 @@ jobs:
           output-branch: test
           source-path: test-file.yaml
           output-path: test-file.yaml
-          set: "job:id=${{ github.run_id }}"
+          set: "job:id=${{ github.run_id }};job:is_production_release=true"
           commit-message: "ci: update for job: ${{ github.run_id }}"
       - name: Verify commit
         env:
@@ -38,5 +38,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: npx semantic-release --branches main -p @semantic-release/commit-analyzer -p @semantic-release/release-notes-generator -p @semantic-release/github
-
-

@@ -13,7 +13,6 @@ export interface RunnerInputs {
   sourcePath: string;
   outputPath: string;
   set: MultiPathValue<string>;
-  setBoolean: MultiPathValue<boolean>;
   setArrayItem: MultiPathValue<string>;
   removeFromArray: MultiPathValue<string>;
   commitMessage: string;

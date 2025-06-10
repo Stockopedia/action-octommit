@@ -13,10 +13,9 @@ jest.mock("@actions/core", () => {
     "output-branch": "target",
     "source-path": "source.yaml",
     "output-path": "target.yaml",
-    set: "parent1:child1=value1",
+    set: "parent1:child1=value1;parent4:child4=true",
     "set-array-item": "parent2:child2=value2",
     "remove-from-array": "parent3:child3=value3",
-    "set-boolean": "parent4:child4=true",
     "commit-message": "ci: update",
   };
   return {
