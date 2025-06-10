@@ -26,8 +26,7 @@ jobs:
           output-branch: test
           source-path: test-file.yaml
           output-path: test-file.yaml
-          set: "job:id=${{ github.run_id }}"
-          set-boolean: "job:is_production_release=true"
+          set: "job:id=${{ github.run_id }};job:is_production_release=true"
           commit-message: "ci: update for job: ${{ github.run_id }}"
       - name: Verify commit
         env:

@@ -32,9 +32,6 @@ inputs:
     required: false
     default: ""
     description: "A series of path=value updates for the YAML to set the value of `path` to `value`. For multiple updates separate with `;`"
-  set-boolean:
-    required: false
-    description: "A series of path=value updates for the YAML to set the value of `path` to `value`. For multiple updates separate with `;`"
   set-array-item:
     required: false
     default: ""
