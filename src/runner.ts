@@ -16,7 +16,7 @@ export async function runAction(
     .outputPath(inputs.outputPath);
 
   inputs.set.forEach(({ path, value }) => {
-    core.info(`value: ${typeof value} - "${value}"`);
+    core.info(`key: ${path} value: ${typeof value} - "${value}"`);
     command = command.set(path, value);
   });
 
