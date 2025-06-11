@@ -1,4 +1,7 @@
 job:
-  id: 15586694384
+  id: 15588079667
   is_production_release: false
   a_number: 42
+job2:
+  boolean: true
+  number: 10
