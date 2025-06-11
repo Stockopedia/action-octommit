@@ -15,6 +15,7 @@ export async function runAction(
     .outputPath(inputs.outputPath);
 
   inputs.set.forEach(({ path, value }) => {
+    console.log(value);
     command = command.set(path, value);
   });
 
