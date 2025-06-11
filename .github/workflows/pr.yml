@@ -27,6 +27,7 @@ jobs:
           set: |
             job:id=${{ github.run_id }};
             job:is_production_release=false;
+            job:string=hello;
             job2:boolean=true;
             job2:number=10;
           commit-message: "ci: update for job: ${{ github.run_id }}"
