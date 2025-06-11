@@ -15,7 +15,7 @@ export async function runAction(
     .outputPath(inputs.outputPath);
 
   inputs.set.forEach(({ path, value }) => {
-    console.log(value);
+    console.log(`value: ${typeof value} - "${value}"`);
     command = command.set(path, value);
   });
 
