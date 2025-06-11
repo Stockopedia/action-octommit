@@ -1,8 +1,8 @@
 job:
-  id: 15588124271
+  id: 15588156802
   is_production_release: false
   a_number: 42
-  string: hello
+  string: '"hello"'
 job2:
   boolean: true
   number: 10
