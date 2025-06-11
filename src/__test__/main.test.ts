@@ -24,6 +24,7 @@ jest.mock("@actions/core", () => {
     }),
     setOutput: jest.fn(),
     setFailed: jest.fn(),
+    info: jest.fn(),
   };
 });
 
