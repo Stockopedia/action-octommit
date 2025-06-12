@@ -10,7 +10,6 @@ export async function main(): Promise<void> {
   const { githubToken, ...inputs } = getInputs(core);
   const octommit = new Octommit(githubToken);
   const result = await runAction(octommit, inputs);
-  core.info(result);
   core.setOutput("result", result);
 }
 
