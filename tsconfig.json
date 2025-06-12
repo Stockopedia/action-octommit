@@ -5,8 +5,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "outDir": "./lib",
+    "outDir": "./dist",
     "rootDir": "./src"
   },
-  "exclude": ["lib", "node_modules"]
+  "exclude": ["dist", "node_modules"]
 }
