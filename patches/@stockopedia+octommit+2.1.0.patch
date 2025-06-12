@@ -1,0 +1,12 @@
+diff --git a/node_modules/@stockopedia/octommit/dist/shared/git-client.js b/node_modules/@stockopedia/octommit/dist/shared/git-client.js
+index 7b71361..93e99cc 100644
+--- a/node_modules/@stockopedia/octommit/dist/shared/git-client.js
++++ b/node_modules/@stockopedia/octommit/dist/shared/git-client.js
+@@ -26,6 +26,7 @@ class GitClient {
+         }
+     }
+     async putFile(data, repo, org, sourceBranch, outputBranch, sourcePath, outputPath, message, sha) {
++        console.log(data)
+         const branchRef = await this.getBranchRef(repo, org, sourceBranch, outputBranch);
+         const sourceSha = await this.getExistingSha(repo, org, outputBranch, sourcePath, outputPath, sha);
+         try {
