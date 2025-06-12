@@ -44,5 +44,5 @@ inputs:
     required: true
     description: "The message to use in the Octommit commit"
 runs:
-  using: "node22"
+  using: "node20"
   main: "dist/index.js"
