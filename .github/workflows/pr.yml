@@ -8,17 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: Checkout
-      - name: Set up Node.js ⚙️
-        uses: actions/setup-node@v2
-        with:
-          node-version: "22.x"
       - run: npm install
         name: Install
       - run: npm run all
         name: Compile Typescript and package
       - run: npm run test
         name: Unit tests
-      - uses: ./
+      - uses: Stockopedia/octommit@fix/support-booleans-3
         name: End-to-end test
         with:
           github-token: ${{ github.token }}
