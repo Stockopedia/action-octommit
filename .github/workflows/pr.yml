@@ -14,7 +14,7 @@ jobs:
         name: Compile Typescript and package
       - run: npm run test
         name: Unit tests
-      - uses: Stockopedia/action-octommit@d0cd1e7f8239937cab225316ad2c1a3d3b9f104e
+      - uses: Stockopedia/action-octommit@febd8008c953ff3812ac92bf2499370b46a328c4
         name: End-to-end test
         with:
           github-token: ${{ github.token }}
