@@ -14,7 +14,7 @@ jobs:
         name: Compile Typescript and package
       - run: npm run test
         name: Unit tests
-      - uses: Stockopedia/octommit@fix/support-booleans-3
+      - uses: Stockopedia/action-octommit@fix/support-booleans-3
         name: End-to-end test
         with:
           github-token: ${{ github.token }}
