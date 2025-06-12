@@ -1,6 +1,5 @@
 import { Octommit } from "@stockopedia/octommit";
 import { RunnerInputs } from "./models";
-import * as core from "@actions/core";
 
 export async function runAction(
   octommit: Octommit,
@@ -16,7 +15,6 @@ export async function runAction(
     .outputPath(inputs.outputPath);
 
   inputs.set.forEach(({ path, value }) => {
-    core.info(`key: ${path} value: ${typeof value} - "${value}"`);
     command = command.set(path, value);
   });
 
