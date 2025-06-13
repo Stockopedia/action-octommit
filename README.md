@@ -45,3 +45,9 @@ If you wish to specify multiple path-values for a given operation, separate thes
 ```shell
 parent1:child1=value1;parent2:child2=value2
 ```
+
+# Development
+
+## Releases
+
+Being a Github Action repository it is neccessary to build the code locally (Run `npm run all`) and commit the built files otherwise workflows consuming the new tag will continue using the build from the previous release.
