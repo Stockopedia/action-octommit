@@ -32,3 +32,14 @@ jobs:
         run: |
           git fetch
           python validate_commit.py
+      - name: comment
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.ARGO_GH_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Remember to upload a local build (See README)'
+            })
