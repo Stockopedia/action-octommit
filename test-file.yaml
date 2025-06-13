@@ -1,6 +1,6 @@
 job:
-  id: 15631438878
-  is_production_release: false
+  id: 15631506221
+  is_production_release: true
   a_number: 42
   string: '"hello"'
 job2:
